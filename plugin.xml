@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="cordova-plugin-bxlbgatedevice" 
+           version="1.0.1">
+           
+    <name>Bixolon-B-gate-device</name>
+    <description>BIXOLON B-gate Cordova Plugin</description>
+    <author>BIXOLON</author>
+    <keywords>BIXOLON,BXL,B-gate,Printer</keywords>
+    <license>Apache 2.0 License</license>
+
+    <!-- This is a polyfill of the ES6 Promise for Cordova -->
+    <dependency id="cordova-promise-polyfill"></dependency>
+
+    <!-- Javascript Common Interface Files -->
+    <js-module src="www/MPosControllerPrinter.js" name="MPosControllerPrinter"><clobbers target="MPosControllerPrinter"/></js-module>
+    <js-module src="www/MPosControllerLabelPrinter.js" name="MPosControllerLabelPrinter"><clobbers target="MPosControllerLabelPrinter"/></js-module>
+    <js-module src="www/MPosControllerLookup.js" name="MPosControllerLookup"><clobbers target="MPosControllerLookup"/></js-module>
+    <js-module src="www/MPosControllerConfig.js" name="MPosControllerConfig"><clobbers target="MPosControllerConfig"/></js-module>
+
+    <!-- Windows -->
+    <platform name="windows">
+        <js-module src="src/windows/MPosControllerLabelPrinterProxy.js" name="MPosControllerLabelPrinterProxy"><merges target="" /></js-module>
+        <js-module src="src/windows/MPosControllerPrinterProxy.js" name="MPosControllerPrinterProxy"><merges target="" /></js-module>
+        <js-module src="src/windows/MPosControllerLookupProxy.js" name="MPosControllerLookupProxy"><merges target="" /></js-module>
+        <js-module src="src/windows/MPosControllerConfigProxy.js" name="MPosControllerConfigProxy"><merges target="" /></js-module>
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities" versions=">=10.0.0">
+            <Capability Name="internetClient" />
+            <Capability Name="privateNetworkClientServer"/>
+            <DeviceCapability Name="bluetooth.rfcomm">
+                <Device Id="any">
+                    <Function Type="name:serialPort"/>
+                </Device>
+            </DeviceCapability>
+	    </config-file>
+        <framework src="src/windows/WinRT.BxlComponent.winmd" custom="true" />
+    </platform>
+
+    <!-- iOS -->
+    <platform name="ios" >
+        <!-- Service Class -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="MPosControllerConfig"><param name="ios-package" value="MPosControllerConfigProxy"/><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerLookup"><param name="ios-package" value="MPosControllerLookupProxy"/><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerPrinter"><param name="ios-package" value="MPosControllerPrinterProxy"/><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerLabelPrinter"><param name="ios-package" value="MPosControllerLabelPrinterProxy"/><param name="onload" value="true"/></feature>
+        </config-file>
+        <!-- Proxy File Header & Implementations -->
+        <header-file src="src/ios/MPosControllerConfigProxy.h"/>
+        <source-file src="src/ios/MPosControllerConfigProxy.m"/>
+        <header-file src="src/ios/MPosControllerLookupProxy.h"/>
+        <source-file src="src/ios/MPosControllerLookupProxy.m"/>
+        <header-file src="src/ios/MPosControllerPrinterProxy.h"/>
+        <source-file src="src/ios/MPosControllerPrinterProxy.m"/>
+        <header-file src="src/ios/MPosControllerLabelPrinterProxy.h"/>
+        <source-file src="src/ios/MPosControllerLabelPrinterProxy.m"/>
+        <!-- Static Library Header Files -->
+        <header-file src="src/ios/libs/Headers/MPosControllerConfig.h"/>
+        <header-file src="src/ios/libs/Headers/MPosControllerDevices.h"/>
+        <header-file src="src/ios/libs/Headers/MPosControllerPrinter.h"/>
+        <header-file src="src/ios/libs/Headers/MPosControllerLabelPrinter.h"/>
+        <header-file src="src/ios/libs/Headers/MPosDefines.h"/>
+        <header-file src="src/ios/libs/Headers/MPosDeviceInfo.h"/>
+        <header-file src="src/ios/libs/Headers/MPosLibVersion.h"/>
+        <header-file src="src/ios/libs/Headers/MPosLookup.h"/>
+        <header-file src="src/ios/libs/Headers/MPosResults.h"/>
+        <!-- iOS Static Library -->
+        <source-file src="src/ios/libs/libMPosSDK.a" framework="true"/>
+        <framework src="ExternalAccessory.framework" framework="true"/>
+        <framework src="CoreBluetooth.framework"/>
+        <!-- Permission -->
+        <config-file target="*-Info.plist" parent="UISupportedExternalAccessoryProtocols">
+            <array><string>com.bixolon.protocol</string></array>
+        </config-file>
+    </platform>
+
+     <!-- Android -->
+    <platform name="android" >
+        <!-- Android Permisssion Setting -->
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+              <!-- Bluetooth -->
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
+            <!--  Network (Ethernet/Wi-Fi) -->
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+        </config-file>
+
+        <!-- Proxy Files -->
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MPosControllerConfig"><param name="android-package" value="com.bxl.bgateplugin.MPosControllerConfigProxy"/><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerLookup"><param name="android-package" value="com.bxl.bgateplugin.MPosControllerLookupProxy"/><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerPrinter"><param name="android-package" value="com.bxl.bgateplugin.MPosControllerPrinterProxy" /><param name="onload" value="true"/></feature>
+            <feature name="MPosControllerLabelPrinter"><param name="android-package" value="com.bxl.bgateplugin.MPosControllerLabelPrinterProxy" /><param name="onload" value="true"/></feature>
+        </config-file>
+        <source-file src="src/android/MPosControllerConfigProxy.java" target-dir="src/com.bxl.bgateplugin" />
+        <source-file src="src/android/MPosControllerLookupProxy.java" target-dir="src/com.bxl.bgateplugin" />
+        <source-file src="src/android/MPosControllerPrinterProxy.java" target-dir="src/com.bxl.bgateplugin" />
+        <source-file src="src/android/MPosControllerLabelPrinterProxy.java" target-dir="src/com.bxl.bgateplugin" />
+        <!-- Android Library -->
+        <lib-file arch="device" src="src/android/libs/BixolonmPosV209.jar"/>
+        <lib-file arch="device" src="src/android/libs/gson-2.6.2.jar"/>
+        <lib-file arch="device" src="src/android/libs/opencv-2.4.13.6.jar"/>
+    </platform>
+
+</plugin>

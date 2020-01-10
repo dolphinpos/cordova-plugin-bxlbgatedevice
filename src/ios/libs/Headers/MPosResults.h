@@ -1,0 +1,27 @@
+
+typedef NS_ENUM(NSInteger, MPOS_RESULT){
+    MPOS_SUCCESS                       = 0,
+    MPOS_SUCCESS_ALREADY_OPEN          = 1,
+    MPOS_FAIL                          = 1000,
+    MPOS_FAIL_INVALID_INTERFACE        = 1001,
+    MPOS_FAIL_NO_OPEN                  = 1002,
+    MPOS_FAIL_NOT_SUPPORT              = 1003,
+    MPOS_FAIL_INVALID_PARAMETER        = 1004,
+    MPOS_FAIL_NO_RESPONSE              = 1005,
+    MPOS_FAIL_NOT_CONNECT              = 1006,
+    MPOS_FAIL_NO_DEVICE                = 1007,
+    MPOS_FAIL_NO_FILE                  = 1008,
+    MPOS_FAIL_BUSY                     = 1009,
+    MPOS_FAIL_OPENED                   = 1010,
+    MPOS_FAIL_TIMEOUT                  = 1011,
+    MPOS_FAIL_NOT_SUPPORT_CODEPAGE     = 1012,
+    MPOS_FAIL_NOT_SUPPORT_ICS          = 1013,
+    MPOS_PAGEMODE_ALREADY_IN           = 1014,
+    MPOS_TRANSACTION_ALREADY_IN        = 1015,
+    MPOS_FAIL_2D_BARCODE               = 1016,
+    MPOS_FAIL_NOT_SUPPORT_ESCSEQ       = 1017,
+    MPOS_FAIL_NO_DEVICE_FOUND           = 5000,
+    MPOS_FAIL_NOT_PERMISSION_ALLOWD     = 5001,
+    MPOS_FAIL_NOT_SUPPORTED_IMAGE_TYPE  = 5002,
+    MPOS_FAIL_IMAGE_DECODE              = 5003
+};

@@ -1,0 +1,13 @@
+{
+  "name": "cordova-plugin-bxlbgatedevice",
+  "version": "1.0.1",
+  "description": "Cordova Bixolon B-gate Plugin",
+  "cordova": {
+    "id": "cordova-plugin-bxlbgatedevice",
+    "platforms": [
+      "android",
+      "ios",
+      "windows"
+    ]
+  }
+}
